@@ -80,10 +80,20 @@ int main()
     ya = yavnii(x, step);
     neya = neyavnii(x, step);
 
-    printf("|%8s|%15s|%15s|%15s|%15s|%15s|%15s|\n", "n", "yavnii", "neyavnii", "pikar1", "pikar2", "pikar3", "pikar4");
+    /*printf("|%8s|%15s|%15s|%15s|%15s|%15s|%15s|\n", "n", "yavnii", "neyavnii", "pikar1", "pikar2", "pikar3", "pikar4");
 
     for (int i = 0; i < x.size(); i++) {
         printf("|%8f|%15f|%15f|%15f|%15f|%15f|%15f|\n", x[i], ya[i], neya[i], p1[i], p2[i], p3[i], p4[i]);
+    }*/
+
+     printf("|%8s|%10s|%10s|%10s|%10s|%10s|%10s|\n", "n", "yavnii", "neyavnii", "pikar1", "pikar2", "pikar3", "pikar4");
+    double k = 0.0, st = 0.1;
+    for (int i = 0; i < x.size(); i++) {
+        if (fabs(x[i] - k) < 0.000001)
+        {
+            printf("|%8f|%10f|%10f|%10f|%10f|%10f|%10f|\n", x[i], ya[i], neya[i], p1[i], p2[i], p3[i], p4[i]);
+            k += st;
+        }
     }
 
     return 0;

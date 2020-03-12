@@ -1,5 +1,6 @@
+KBUILD_EXTRA_SYMBOLS = $(shell pwd)/Module.symverscd
 ifneq ($(KERNELRELEASE),)
-	obj-m := md.o
+	obj-m := md1.o md2.o md3.o
 else
 	CURRENT = $(shell uname -r)
 	KDIR = /lib/modules/$(CURRENT)/build

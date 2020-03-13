@@ -5,6 +5,7 @@
 *.mod
 *#*
 *.~lock*
+*__pycache__*
 # Prerequisites
 *.d
 

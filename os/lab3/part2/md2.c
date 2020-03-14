@@ -12,6 +12,6 @@ static int __init md_init( void ) {
 static void __exit md_exit( void ) { 
    printk( "+ module md2 unloaded!\n" ); 
 } 
-module_init( md_init ); 
+module_init( md_init );
 module_exit( md_exit );
 

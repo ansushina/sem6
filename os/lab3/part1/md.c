@@ -20,6 +20,9 @@ static int __init my_module_init(void) {
 		printk(KERN_INFO "---%s-%d, parent %s-%d", task->comm, task->pid, task->parent->comm, task->parent->pid);
 	} while ((task = next_task(task)) != &init_task);
 
+	printk(KERN_INFO "---%s-%d, parent %s-%d", current->comm, current->pid, current->parent->comm, current->parent->pid);
+
+
 	return 0;
 }
 

@@ -31,7 +31,7 @@ resetData = {
     "I0": 0.5,
     "Tw": 2000,
     "Tbegin":0,
-    "Tend": 0.001,
+    "Tend": 0.0006,
     "Tstep": 0.000001,
 }
 
@@ -53,6 +53,7 @@ graph1 = [[] for i in range(2)]
 graph2 = [[] for i in range(2)]
 graph3 = [[] for i in range(2)]
 graph4 = [[] for i in range(2)]
+graph5 = [[] for i in range(2)]
 
 graph1_1 = [[] for i in range(2)]
 graph2_1 = [[] for i in range(2)]

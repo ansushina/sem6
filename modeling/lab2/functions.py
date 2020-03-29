@@ -1,9 +1,6 @@
-from const import ItK, Tsigma, data, graph4, graph3, graph2, graph1, graph1_1, graph2_1, graph3_1, graph4_1
+from const import ItK, Tsigma, data, graph4, graph3, graph2, graph1, graph1_1, graph2_1, graph3_1, graph4_1, graph5
 import math
 import numpy
-
-def LinearInterpolate(a, b, x):
-    return a*(1-x) + b*x 
 
 def interpolate(table, xValue, xIndex, yIndex):
     interpolateIndexFound = False
@@ -97,7 +94,6 @@ def RungeKutta4(xn, yn, zn, hn):
     return yn_1, zn_1
 
 def RungeKutta2(x0, y0, z0, h):
-
     alpha = 0.5
     nh = h / (2 * alpha)
     k1 = functionF_2(x0, y0, z0)
@@ -123,6 +119,8 @@ def computeResult():
         graph1[1].append(I) 
         graph2[0].append(i)
         graph2[1].append(Uc)
+        graph5[0].append(i)
+        graph5[1].append(interpolate(ItK, I, 0, 1))
         I_1, U_1 = RungeKutta4(i, I, Uc, hn)
         I = I_1
         Uc = U_1
@@ -134,7 +132,6 @@ def computeResult():
     I = data['I0']
     Uc = data['Uc0']
     hn = data['Tstep']
-
 
     for i in numpy.arange(t, tmax, hn):
         graph1_1[0].append(i)

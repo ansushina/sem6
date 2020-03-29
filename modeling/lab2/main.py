@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt 
 import const
-from interpolate import computeResult
+from functions import computeResult
 
 from tkinter import *
 root = Tk()
@@ -55,6 +55,8 @@ def clear_graphs():
     const.graph3_1[1].clear()
     const.graph4_1[0].clear()
     const.graph4_1[1].clear()
+    const.graph5[0].clear()
+    const.graph5[1].clear()
 
 def start_work(Event):
     clear_graphs()
@@ -65,23 +67,29 @@ def start_work(Event):
         const.data[var] = float(varList[var].get())
     computeResult()
 
-    plt.subplot(2, 2, 1)
-    plt.plot(const.graph1[0], const.graph1[1])
+    plt.subplot(2, 3, 1)
     plt.plot(const.graph1_1[0], const.graph1_1[1])
-    plt.title('I ')
-    plt.subplot(2, 2, 2)
-    plt.plot(const.graph2[0], const.graph2[1])
-    plt.plot(const.graph2_1[0], const.graph2_1[1])
-    plt.title('UC' )
-    plt.subplot(2, 2, 3)
-    plt.plot(const.graph3[0], const.graph3[1])
-    plt.plot(const.graph3_1[0], const.graph3_1[1])
-    plt.title('Rp')
-    plt.subplot(2, 2, 4)
-    plt.plot(const.graph4[0], const.graph4[1])
-    plt.plot(const.graph4_1[0], const.graph4_1[1])
-    plt.title('I * Rp')
+    plt.plot(const.graph1[0], const.graph1[1])
     
+    plt.title('I ')
+    plt.subplot(2, 3, 2)
+    plt.plot(const.graph2_1[0], const.graph2_1[1])
+    plt.plot(const.graph2[0], const.graph2[1])
+    
+    plt.title('UC' )
+    plt.subplot(2, 3, 4)
+    plt.plot(const.graph3_1[0], const.graph3_1[1])
+    plt.plot(const.graph3[0], const.graph3[1])
+    
+    plt.title('Rp')
+    plt.subplot(2, 3, 5)
+    plt.plot(const.graph4_1[0], const.graph4_1[1])
+    plt.plot(const.graph4[0], const.graph4[1])
+    
+    plt.title('I * Rp')
+    plt.subplot(2, 3, 3)
+    plt.plot(const.graph5[0], const.graph5[1])
+    plt.title('T0')
     plt.show()
 
 

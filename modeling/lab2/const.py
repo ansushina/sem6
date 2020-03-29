@@ -13,7 +13,7 @@ Tsigma = [
 [5000, 0.27],
 [6000, 2.05],
 [7000, 6.06],
-[8000, 12],
+[8000, 12.0],
 [9000, 19.9],
 [10000, 29.6],
 [11000, 41.1],
@@ -23,26 +23,26 @@ Tsigma = [
 
 resetData = {
     "R": 0.35,
-    "Ck": 0.0015,
-    "Lk": 0.0006,
-    "Rk": 0.5,
+    "Le": 12,
+    "Lk": 0.000187,
+    "Ck": 0.000268,
+    "Rk": 0.25,
     "Uc0": 1400,
     "I0": 0.5,
-    "Le": 12,
     "Tw": 2000,
-    "Tbegin":100,
-    "Tend": 200,
-    "Tstep": 1,
+    "Tbegin":0,
+    "Tend": 0.001,
+    "Tstep": 0.000001,
 }
 
 data = {
     "R": 0.35,
-    "Ck": 0.0015,
-    "Lk": 0.0006,
-    "Rk": 0.5,
+    "Le": 12,
+    "Lk": 0.000187,
+    "Ck": 0.000268,
+    "Rk": 0.25,
     "Uc0": 1400,
     "I0": 0.5,
-    "Le": 12,
     "Tw": 2000,
     "Tbegin": 0,
     "Tend": 0,
@@ -53,3 +53,8 @@ graph1 = [[] for i in range(2)]
 graph2 = [[] for i in range(2)]
 graph3 = [[] for i in range(2)]
 graph4 = [[] for i in range(2)]
+
+graph1_1 = [[] for i in range(2)]
+graph2_1 = [[] for i in range(2)]
+graph3_1 = [[] for i in range(2)]
+graph4_1 = [[] for i in range(2)]

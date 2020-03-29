@@ -7,13 +7,13 @@ root = Tk()
 
 varList = {
     "R": StringVar(),
-    "Tw": StringVar(),
-    "Ck": StringVar(),
+    "Le": StringVar(),
     "Lk": StringVar(),
+    "Ck": StringVar(),
     "Rk": StringVar(),
     "Uc0": StringVar(),
     "I0": StringVar(),
-    "Le": StringVar(),
+    "Tw": StringVar(),
     "Tbegin": StringVar(),
     "Tend": StringVar(),
     "Tstep": StringVar(),
@@ -37,18 +37,51 @@ def check_is_num():
             return False
     return True
 
+
+def clear_graphs(): 
+    const.graph1[0].clear()
+    const.graph1[1].clear()
+    const.graph2[0].clear()
+    const.graph2[1].clear()
+    const.graph3[0].clear()
+    const.graph3[1].clear()
+    const.graph4[0].clear()
+    const.graph4[1].clear()
+    const.graph1_1[0].clear()
+    const.graph1_1[1].clear()
+    const.graph2_1[0].clear()
+    const.graph2_1[1].clear()
+    const.graph3_1[0].clear()
+    const.graph3_1[1].clear()
+    const.graph4_1[0].clear()
+    const.graph4_1[1].clear()
+
 def start_work(Event):
+    clear_graphs()
     if not check_is_num():
         print("WARNING NOT DIGIT")
         return
     for var in varList.keys():
         const.data[var] = float(varList[var].get())
-    print(const.data)
     computeResult()
-    print(const.graph1)
-    print(const.graph2)
-    
+
+    plt.subplot(2, 2, 1)
+    plt.plot(const.graph1[0], const.graph1[1])
+    plt.plot(const.graph1_1[0], const.graph1_1[1])
+    plt.title('I ')
+    plt.subplot(2, 2, 2)
     plt.plot(const.graph2[0], const.graph2[1])
+    plt.plot(const.graph2_1[0], const.graph2_1[1])
+    plt.title('UC' )
+    plt.subplot(2, 2, 3)
+    plt.plot(const.graph3[0], const.graph3[1])
+    plt.plot(const.graph3_1[0], const.graph3_1[1])
+    plt.title('Rp')
+    plt.subplot(2, 2, 4)
+    plt.plot(const.graph4[0], const.graph4[1])
+    plt.plot(const.graph4_1[0], const.graph4_1[1])
+    plt.title('I * Rp')
+    
     plt.show()
 
 

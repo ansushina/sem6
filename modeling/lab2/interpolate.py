@@ -1,4 +1,4 @@
-from const import ItK, Tsigma, data, graph4, graph3, graph2, graph1
+from const import ItK, Tsigma, data, graph4, graph3, graph2, graph1, graph1_1, graph2_1, graph3_1, graph4_1
 import math
 import numpy
 
@@ -20,17 +20,17 @@ def interpolate(table, xValue, xIndex, yIndex):
             x2 = table[i + 1][xIndex]
             interpolateIndexFound = True
     if (interpolateIndexFound):
-        yResult = y1 + ((xValue - x1) / (x2 - x1)) * (y2 - y1);   
+        yResult = y1 + ((xValue - x1) / (x2 - x1)) * (y2 - y1)
     else:
         if (xValue < table[0][xIndex]):
             yResult = table[0][yIndex]
         if (xValue > table[len(table) - 1][xIndex]):
             yResult = table[len(table) - 1][yIndex]
             
-    return yResult;
+    return yResult
 
 def getTz(T0, m, r):
-    z = r / data['R'];
+    z = r / data['R']
     return (data['Tw'] - T0) * math.pow(z, m) + T0
 
 def siqmaFunc(I, z):
@@ -42,13 +42,13 @@ def siqmaFunc(I, z):
 
 def integrateSimpson(I):
     n = 40
-    integrateBegin = 0
-    integrateEnd = 1
-    width = (integrateEnd - integrateBegin) / n
+    begin = 0
+    end = 1
+    width = (end - begin) / n
     result = 0
     for step in range(n):
-        x1 = integrateBegin + step * width
-        x2 = integrateBegin + (step + 1) * width
+        x1 = begin + step * width
+        x2 = begin + (step + 1) * width
         result += (x2 - x1) / 6.0 * (siqmaFunc(I, x1) + 4.0 * siqmaFunc(I, 0.5 * (x1 + x2)) + siqmaFunc(I, x2))
     return result
 
@@ -57,44 +57,56 @@ def calculateRp(I):
     integral = integrateSimpson(I)
     return data['Le'] / (2 * math.pi * R * R * integral)
 
-def functionF(xn, yn, zn):
-    Rp = calculateRp(yn)
-    graph3[0].append(xn)
+def functionF_4(t, I, U):
+    Rp = calculateRp(I)
+    graph3[0].append(t)
     graph3[1].append(Rp)
-    graph4[0].append(xn)
-    graph4[1].append(yn*Rp)
-    return ((zn - (data['Rk'] + Rp) * yn) / data['Lk'])
+    graph4[0].append(t)
+    graph4[1].append(I*Rp)
+    return ((U - (data['Rk'] + Rp) * I) / data['Lk'])
 
-def functionPHI(xn, yn, zn):
-    return -1 / data['Ck'] * yn
+def functionF_2(t, I, U):
+    Rp = calculateRp(I)
+    graph3_1[0].append(t)
+    graph3_1[1].append(Rp)
+    graph4_1[0].append(t)
+    graph4_1[1].append(I*Rp)
+    return ((U - (data['Rk'] + Rp) * I) / data['Lk'])
+
+def functionPHI(t, I, U):
+    return -1 / data['Ck'] * I
 
 
 def RungeKutta4(xn, yn, zn, hn):
-    k1 = functionF(xn, yn, zn)
-    q1 = functionPHI(xn, yn, zn)
+    hn2 = hn / 2
 
-    k2 = functionF(xn + hn / 2, yn + k1 * hn / 2, zn + q1 * hn / 2)
-    q2 = functionPHI(xn + hn / 2, yn + k1 * hn / 2, zn + q1 * hn / 2)
+    k1 = hn * functionF_4(xn, yn, zn)
+    q1 = hn * functionPHI(xn, yn, zn)
 
-    k3 = functionF(xn + hn / 2, yn + k2 * hn / 2, zn + q2 * hn / 2)
-    q3 = functionPHI(xn + hn / 2, yn + k2 * hn / 2, zn + q2 * hn / 2)
+    k2 = hn * functionF_4(xn + hn2, yn + k1 / 2, zn + q1 / 2)
+    q2 = hn * functionPHI(xn + hn2, yn + k1 / 2, zn + q1 / 2)
 
-    k4 = functionF(xn + hn / 2, yn + k3 * hn, zn + q3 * hn)
-    q4 = functionPHI(xn + hn / 2, yn + k3 * hn, zn + q3 * hn)
+    k3 = hn * functionF_4(xn + hn2, yn + k2 / 2, zn + q2 / 2)
+    q3 = hn * functionPHI(xn + hn2, yn + k2 / 2, zn + q2 / 2)
 
-    yn_1 = yn + hn * (k1 + 2 * k2 + 2 * k3 + k4) / 6
-    zn_1 = zn + hn * (q1 + 2 * q2 + 2 * q3 + q4) / 6
+    k4 = hn * functionF_4(xn + hn, yn + k3, zn + q3)
+    q4 = hn * functionPHI(xn + hn, yn + k3, zn + q3)
+
+    yn_1 = yn + (k1 + 2 * k2 + 2 * k3 + k4) / 6
+    zn_1 = zn + (q1 + 2 * q2 + 2 * q3 + q4) / 6
     return yn_1, zn_1
 
-def RungeKutta2(xn, yn, zn, hn):
-    alpha = 1;
-    yn_1 = (yn + hn * ((1 - alpha) * functionF(xn, yn, zn) +
-            alpha * functionF(xn + hn / (2 * alpha), yn + hn / (2 * alpha), zn + hn / (2 * alpha)) *
-            functionF(xn, yn, zn)))
-    zn_1 = (yn + hn * ((1 - alpha) * functionPHI(xn, yn, zn) +
-            alpha * functionPHI(xn + hn / (2 * alpha), yn + hn / (2 * alpha), zn + hn / (2 * alpha)) *
-            functionPHI(xn, yn, zn)))
-    return yn_1, zn_1
+def RungeKutta2(x0, y0, z0, h):
+
+    alpha = 0.5
+    nh = h / (2 * alpha)
+    k1 = functionF_2(x0, y0, z0)
+    q1 = functionPHI(x0, y0, z0)
+    k2 = functionF_2(x0 + nh, y0 + nh * k1, z0 + nh * q1)
+    q2 = functionPHI(x0 + nh, y0 + nh * k1, z0 + nh * q1)
+    y1 = y0 + h * ((1 - alpha) * k1 + alpha * k2)
+    z1 = z0 + h * ((1 - alpha) * q1 + alpha * q2)
+    return y1, z1
 
 def computeResult():
     t = data['Tbegin']
@@ -114,3 +126,22 @@ def computeResult():
         I_1, U_1 = RungeKutta4(i, I, Uc, hn)
         I = I_1
         Uc = U_1
+
+    I_1 = 0
+    U_1 = 0
+    t = data['Tbegin']
+    tmax = data['Tend']
+    I = data['I0']
+    Uc = data['Uc0']
+    hn = data['Tstep']
+
+
+    for i in numpy.arange(t, tmax, hn):
+        graph1_1[0].append(i)
+        graph1_1[1].append(I) 
+        graph2_1[0].append(i)
+        graph2_1[1].append(Uc)
+        I_1, U_1 = RungeKutta2(i, I, Uc, hn)
+        I = I_1
+        Uc = U_1
+

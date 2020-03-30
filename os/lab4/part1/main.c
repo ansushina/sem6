@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
     read_one_file("/proc/self/cmdline",  simpleOutput);
     printf("\n______________________________\n");
     printf("FD\n\n");
-    execl("/bin/ls", "ls", "/proc/self/fd", NULL);
+    chdir("/proc/self/fd");
+    execlp("/bin/ls","ls","-l",0);
     return 0;
 }

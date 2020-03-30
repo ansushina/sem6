@@ -15,16 +15,6 @@ MODULE_DESCRIPTION("Fortune Cookie Kernel Module");
 #define COOKIE_BUF_SIZE PAGE_SIZE
 #define TEMP_BUF_SIZE 256
 
-/*
-    Работа со структурой task struct
-    next_task, prev_stack
-    создать кольцо, связанный список
-    вывести информацию о процессе
-    в режиме ядра
-    включить просмотр структур task struct
-    начало init_tusk
-    до тех пор пока не встретим init_task
-*/
 
 ssize_t fortune_read(struct file *file, char *buf, size_t count, loff_t *f_pos);
 ssize_t fortune_write(struct file *file, const char *buf, size_t count, loff_t *f_pos);
@@ -108,7 +98,7 @@ int fortune_init(void)
     }
 
     memset(cookie_buf, 0, COOKIE_BUF_SIZE);
-    proc_entry = proc_create("fortune", 0, NULL, &fops);
+    proc_entry = proc_create("fortune", 0666, NULL, &fops);
 
     if (!proc_entry)
     {

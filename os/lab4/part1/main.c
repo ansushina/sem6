@@ -62,14 +62,12 @@ char *outputNames[] = {
 };
 
 static int i = 0;
-
-
 void statOutput(char *buf)
 {
     int len = strlen(buf);
     int currentName = 0;
     char *pch = strtok(buf, " ");
-    
+
     while (pch != NULL && i < 51)
     {
         printf("\n%15s:\t %s", outputNames[i], pch);
@@ -77,42 +75,37 @@ void statOutput(char *buf)
         i++;
     }
 }
-
 void simpleOutput(char *buf)
 {
     printf("%s\n", buf);
 }
-
-void (*func) (char*);
-
-void readFile(char* filePath, void (*func)(char*))
+void read_one_file(char* filename, void (*print_func)(char*))
 {
     char buf[BUF_SIZE];
     int i, len;
-    FILE *f = fopen(filePath, "r");
+    FILE *f = fopen(filename, "r");
     while ((len = fread(buf, 1, BUF_SIZE, f)) > 0)
     {
         for (i = 0; i < len; i++)
             if( buf[i] == 0)
                 buf[i] = 10;
         buf[len - 1] = 0;
-        func(buf);
+        print_func(buf);
     }
     fclose(f);
 }
-
 int main(int argc, char *argv[])
 {
-    printf("\n=============================\n");
+    printf("\n______________________________\n");
     printf("STAT \n\n");
-    readFile("/proc/self/stat", statOutput);
-    printf("\n=============================\n");
+    read_one_file("/proc/self/stat", statOutput);
+    printf("\n______________________________\n");
     printf("ENVIRON\n\n");
-    readFile("/proc/self/environ",  simpleOutput);
-    printf("\n=============================\n");
+    read_one_file("/proc/self/environ",  simpleOutput);
+    printf("\n______________________________\n");
     printf("CMDLINE\n\n");
-    readFile("/proc/self/cmdline",  simpleOutput);
-    printf("\n=============================\n");
+    read_one_file("/proc/self/cmdline",  simpleOutput);
+    printf("\n______________________________\n");
     printf("FD\n\n");
     execl("/bin/ls", "ls", "/proc/self/fd", NULL);
     return 0;

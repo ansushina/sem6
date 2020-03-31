@@ -27,7 +27,7 @@ def interpolate(table, xValue, xIndex, yIndex):
     return yResult
 
 def getTz(T0, m, r):
-    z = r / data['R']
+    z = r 
     return (data['Tw'] - T0) * math.pow(z, m) + T0
 
 def siqmaFunc(I, z):
@@ -35,7 +35,7 @@ def siqmaFunc(I, z):
     T0 = interpolate(ItK, I, 0, 1)
     Tz = getTz(T0, m, z)
     siqma = interpolate(Tsigma, Tz, 0, 1)
-    return siqma
+    return z * siqma
 
 def integrateSimpson(I):
     n = 40

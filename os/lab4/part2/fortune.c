@@ -110,8 +110,8 @@ int fortune_init(void)
     read_index = 0;
     write_index = 0;
 
-    proc_mkdir("my_dir_in_proc", NULL);
-    proc_symlink("my_symbolic_in_proc", NULL, "/proc/fortune");
+    proc_mkdir("my_dir_fortune", NULL);
+    proc_symlink("my_symbolic_fortune", NULL, "/proc/fortune");
 
     printk(KERN_INFO "+_+ fortune module loaded.\n");
     return 0;

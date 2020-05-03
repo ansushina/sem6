@@ -12,7 +12,7 @@ def k(x):
     return a / (x - b)
 
 def Alpha(x):
-    return c / (x - d)
+    return c / (x - d) 
 
 def P(x):
     return 2/data['R'] * Alpha(x)
@@ -22,9 +22,11 @@ def f(x):
 
 def KHIminus12(x):
     return 2*k(x)*k(x-h)/(k(x) + k(x-h))
+    #return (k(x) + k(x-h)) /2
 
 def KHIplus12(x):
     return 2*k(x)*k(x+h)/(k(x) + k(x+h))
+    #return (k(x) + k(x+h))/2
 
 def A(n): 
     return KHIplus12(n)/h
@@ -53,7 +55,7 @@ def calculate():
     f1 = f(xstart+h)
     f12 = (f0+f1)/2
 
-    M0 = KHIplus12(xstart) - h*h/8*p12
+    M0 = -KHIplus12(xstart) + h*h/8*p12
     K0 = KHIplus12(xstart) + h*h/8*p12 + h*h/4*p0
     P0 = h*data['F0'] + h*h/4*(f12 + f0)
 
@@ -67,11 +69,12 @@ def calculate():
     fn1 = f(xend-h)
     fn12 = (fn+fn1)/2
 
-    Mn = -KHIminus12(xend) + h * h * pn12 / 8
-    Kn = KHIminus12(xend) + data['AlphaN'] * h + h * h * pn12 / 8 - h * h * pn / 4;
-    Pn = data['AlphaN'] * data['t0'] * h - h * h * (fn12 + fn) / 4;
+    Mn = (-KHIminus12(xend) + h * h * pn12 / 8)
+    Kn = (KHIminus12(xend) + data['AlphaN'] * h + h * h * pn12 / 8 + h * h * pn / 4);
+    Pn = (data['AlphaN'] * data['t0'] * h + h * h * (fn12 + fn) / 4);
 
-    eps = [0, M0/K0 ]
+
+    eps = [0, -M0/K0 ]
     eta = [0, P0/K0]
 
 
@@ -85,11 +88,10 @@ def calculate():
     
     t = [0] * (n + 1)
     
-    t[n] = (Pn - Mn * eta[n]) / (Kn + Mn * eps[n])
-
+    t[n] = (Pn - Mn * eta[n]) / (Kn + Mn * eps[n]) 
     for i in range(n - 1, -1, -1):
         t[i] = eps[i + 1] * t[i + 1] + eta[i + 1]
-
+    
     graph1[0] =  [i for i in np.arange(0, N, h)]
     graph1[1] = t[:-1]
 

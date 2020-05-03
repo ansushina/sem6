@@ -52,8 +52,8 @@ def start_work(Event):
 
     plt.title('T(x)')
     plt.plot(const.graph1[0], const.graph1[1])
-    plt.xlable("x, sm")
-    plt.ylabel("T,")
+    plt.xlabel("x, sm")
+    plt.ylabel("T, K")
     plt.show()
     
 

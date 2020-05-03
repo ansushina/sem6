@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt 
-import const
-from functions import computeResult
+import data as const
+from functions import calculate
 
 from tkinter import *
 root = Tk()
@@ -11,9 +11,10 @@ varList = {
     "Alpha0": StringVar(),
     "AlphaN": StringVar(),
     "l": StringVar(),
-    "T0": StringVar(),
+    "t0": StringVar(),
     "R": StringVar(),
     "F0": StringVar(),
+    "h": StringVar()
 }
 
 def create_grid(root):
@@ -32,7 +33,7 @@ def check_is_num():
             float(var.get())
         except ValueError:
             return False
-    return True
+    return True    
 
 
 def clear_graphs(): 
@@ -46,11 +47,14 @@ def start_work(Event):
         return
     for var in varList.keys():
         const.data[var] = float(varList[var].get())
-    computeResult()
+    calculate()
 
-    plt.subplot(2, 3, 1)
-    plt.plot(const.graph1_1[0], const.graph1_1[1])
+
+    plt.title('T(x)')
     plt.plot(const.graph1[0], const.graph1[1])
+    plt.xlable("x, sm")
+    plt.ylabel("T,")
+    plt.show()
     
 
 if __name__ == '__main__':
